@@ -4,7 +4,11 @@ import "reflect"
 
 type TestMethod func()
 
+type TestCase struct {
+}
+
 type WasRun struct {
+	TestCase
 	name   string
 	wasRun bool
 }
