@@ -1,3 +1,9 @@
 package xunit
 
-type WasRun struct {}
+type WasRun struct {
+	name string
+	wasRun bool
+}
+
+func (w *WasRun) testMethod() {
+}
