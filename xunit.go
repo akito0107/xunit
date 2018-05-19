@@ -22,6 +22,7 @@ type WasRun struct {
 	Name     string
 	WasRun   bool
 	WasSetUp bool
+	Log      string
 }
 
 func NewWasRun(name string) *WasRun {
@@ -33,9 +34,10 @@ func NewWasRun(name string) *WasRun {
 }
 
 func (w *WasRun) SetUp() {
-	w.WasSetUp = true
+	w.Log = "setUp "
 }
 
 func (w *WasRun) TestMethod() {
 	w.WasRun = true
+	w.Log = w.Log + "testMethod "
 }

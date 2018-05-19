@@ -11,17 +11,11 @@ func (t *TestCaseTest) SetUp() {
 	t.test = xunit.NewWasRun("TestMethod")
 }
 
-func (t *TestCaseTest) TestRunning() {
+func (t *TestCaseTest) TestTemplateMethod() {
 	xunit.Run(t.test)
-	xunit.Assert(t.test.WasRun)
-}
-
-func (t *TestCaseTest) TestSetUp() {
-	xunit.Run(t.test)
-	xunit.Assert(t.test.WasSetUp)
+	xunit.Assert("setUp testMethod " == t.test.Log)
 }
 
 func main() {
-	xunit.Run(&TestCaseTest{Name: "TestRunning"})
-	xunit.Run(&TestCaseTest{Name: "TestSetUp"})
+	xunit.Run(&TestCaseTest{Name: "TestTemplateMethod"})
 }
