@@ -1,8 +1,8 @@
 package xunit
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 )
 
 func TestWasRun(t *testing.T) {
