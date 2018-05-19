@@ -1,5 +1,9 @@
 package xunit
 
+import "reflect"
+
+type TestMethod func()
+
 type WasRun struct {
 	name   string
 	wasRun bool
@@ -10,5 +14,6 @@ func (w *WasRun) TestMethod() {
 }
 
 func (w *WasRun) Run() {
-	w.TestMethod()
+	method := reflect.ValueOf(w).MethodByName(w.name)
+	method.Call([]reflect.Value{})
 }
