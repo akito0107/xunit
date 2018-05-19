@@ -1,6 +1,8 @@
 package main
 
-import "github.com/akito0107/xunit"
+import (
+	"github.com/akito0107/xunit"
+)
 
 type TestCaseTest struct {
 	Name string
@@ -10,7 +12,7 @@ type TestCaseTest struct {
 func (t *TestCaseTest) TestTemplateMethod() {
 	test := xunit.NewWasRun("TestMethod")
 	xunit.Run(test)
-	xunit.Assert("setUp testMethod " == test.Log)
+	xunit.Assert("setUp testMethod tearDown " == test.Log)
 }
 
 func main() {

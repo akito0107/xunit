@@ -12,10 +12,19 @@ func Run(i interface{}) {
 	name, _ := n.(string)
 	method := reflect.ValueOf(i).MethodByName(name)
 	method.Call([]reflect.Value{})
+
+	downer, ok := i.(TearDowner)
+	if ok {
+		downer.TearDown()
+	}
 }
 
 type SetUpper interface {
 	SetUp()
+}
+
+type TearDowner interface {
+	TearDown()
 }
 
 type WasRun struct {
@@ -36,3 +45,10 @@ func (w *WasRun) SetUp() {
 func (w *WasRun) TestMethod() {
 	w.Log = w.Log + "testMethod "
 }
+
+func (w *WasRun) TearDown() {
+	w.Log = w.Log + "tearDown "
+}
+
+var _ SetUpper = &WasRun{}
+var _ TearDowner = &WasRun{}
