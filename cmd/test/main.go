@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/akito0107/xunit"
 )
 
@@ -27,8 +29,16 @@ func (t *TestCaseTest) TestFailedResult() {
 	xunit.Assert("1 run, 1 failed" == result.Summary())
 }
 
+func (t *TestCaseTest) TestFailedResultFormatting() {
+	res := xunit.NewTestResult()
+	res.TestStarted()
+	res.TestFailed()
+	xunit.Assert("1 run, 1 failed" == res.Summary())
+}
+
 func main() {
-	xunit.Run(&TestCaseTest{Name: "TestTemplateMethod"})
-	xunit.Run(&TestCaseTest{Name: "TestResult"})
-	xunit.Run(&TestCaseTest{Name: "TestFailedResult"})
+	fmt.Println(xunit.Run(&TestCaseTest{Name: "TestTemplateMethod"}).Summary())
+	fmt.Println(xunit.Run(&TestCaseTest{Name: "TestResult"}).Summary())
+	fmt.Println(xunit.Run(&TestCaseTest{Name: "TestFailedResult"}).Summary())
+	fmt.Println(xunit.Run(&TestCaseTest{Name: "TestFailedResultFormatting"}).Summary())
 }

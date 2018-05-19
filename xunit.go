@@ -66,12 +66,14 @@ var _ SetUpper = &WasRun{}
 var _ TearDowner = &WasRun{}
 
 type TestResult struct {
-	RunCount int
+	RunCount   int
+	ErrorCount int
 }
 
 func NewTestResult() *TestResult {
 	return &TestResult{
-		RunCount: 0,
+		RunCount:   0,
+		ErrorCount: 0,
 	}
 }
 
@@ -79,6 +81,10 @@ func (t *TestResult) TestStarted() {
 	t.RunCount += 1
 }
 
+func (t *TestResult) TestFailed() {
+	t.ErrorCount += 1
+}
+
 func (t *TestResult) Summary() string {
-	return fmt.Sprintf("%d run, 0 failed", t.RunCount)
+	return fmt.Sprintf("%d run, %d failed", t.RunCount, t.ErrorCount)
 }
