@@ -2,8 +2,10 @@ package xunit
 
 import "reflect"
 
-func Run(t TestCase) {
-	method := reflect.ValueOf(t).MethodByName(t.Name())
+func Run(i interface{}) {
+	n := reflect.ValueOf(i).Elem().FieldByName("Name").Interface()
+	name, _ := n.(string)
+	method := reflect.ValueOf(i).MethodByName(name)
 	method.Call([]reflect.Value{})
 }
 
@@ -12,21 +14,17 @@ type TestCase interface {
 }
 
 type WasRun struct {
-	name   string
+	Name   string
 	WasRun bool
 }
 
 func NewWasRun(name string) *WasRun {
 	return &WasRun{
-		name:   name,
+		Name:   name,
 		WasRun: false,
 	}
 }
 
 func (w *WasRun) TestMethod() {
 	w.WasRun = true
-}
-
-func (w *WasRun) Name() string {
-	return w.name
 }

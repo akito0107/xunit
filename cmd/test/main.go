@@ -3,11 +3,7 @@ package main
 import "github.com/akito0107/xunit"
 
 type TestCaseTest struct {
-	name string
-}
-
-func (t *TestCaseTest) Name() string {
-	return t.name
+	Name string
 }
 
 func (t *TestCaseTest) TestRunning() {
