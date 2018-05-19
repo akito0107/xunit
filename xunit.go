@@ -16,8 +16,16 @@ func Run(i interface{}) *TestResult {
 
 	n := reflect.ValueOf(i).Elem().FieldByName("Name").Interface()
 	name, _ := n.(string)
-	method := reflect.ValueOf(i).MethodByName(name)
-	method.Call([]reflect.Value{})
+
+	func() {
+		defer func() {
+			if err := recover(); err != nil {
+				res.TestFailed()
+			}
+		}()
+		method := reflect.ValueOf(i).MethodByName(name)
+		method.Call([]reflect.Value{})
+	}()
 
 	downer, ok := i.(TearDowner)
 	if ok {
