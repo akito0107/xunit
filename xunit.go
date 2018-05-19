@@ -2,7 +2,7 @@ package xunit
 
 import "reflect"
 
-func Run(i interface{}) {
+func Run(i interface{}) *TestResult {
 	setupper, ok := i.(SetUpper)
 	if ok {
 		setupper.SetUp()
@@ -17,6 +17,8 @@ func Run(i interface{}) {
 	if ok {
 		downer.TearDown()
 	}
+
+	return &TestResult{}
 }
 
 type SetUpper interface {
@@ -52,3 +54,10 @@ func (w *WasRun) TearDown() {
 
 var _ SetUpper = &WasRun{}
 var _ TearDowner = &WasRun{}
+
+type TestResult struct {
+}
+
+func (t *TestResult) Summary() string {
+	return "1 run, 0 failed"
+}

@@ -15,6 +15,13 @@ func (t *TestCaseTest) TestTemplateMethod() {
 	xunit.Assert("setUp testMethod tearDown " == test.Log)
 }
 
+func (t *TestCaseTest) TestResult() {
+	test := xunit.NewWasRun("TestMethod")
+	result := xunit.Run(test)
+	xunit.Assert("1 run, 0 failed" == result.Summary())
+}
+
 func main() {
 	xunit.Run(&TestCaseTest{Name: "TestTemplateMethod"})
+	xunit.Run(&TestCaseTest{Name: "TestResult"})
 }
