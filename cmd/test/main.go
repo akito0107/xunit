@@ -7,13 +7,10 @@ type TestCaseTest struct {
 	test *xunit.WasRun
 }
 
-func (t *TestCaseTest) SetUp() {
-	t.test = xunit.NewWasRun("TestMethod")
-}
-
 func (t *TestCaseTest) TestTemplateMethod() {
-	xunit.Run(t.test)
-	xunit.Assert("setUp testMethod " == t.test.Log)
+	test := xunit.NewWasRun("TestMethod")
+	xunit.Run(test)
+	xunit.Assert("setUp testMethod " == test.Log)
 }
 
 func main() {

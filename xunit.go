@@ -19,17 +19,13 @@ type SetUpper interface {
 }
 
 type WasRun struct {
-	Name     string
-	WasRun   bool
-	WasSetUp bool
-	Log      string
+	Name string
+	Log  string
 }
 
 func NewWasRun(name string) *WasRun {
 	return &WasRun{
-		Name:     name,
-		WasRun:   false,
-		WasSetUp: false,
+		Name: name,
 	}
 }
 
@@ -38,6 +34,5 @@ func (w *WasRun) SetUp() {
 }
 
 func (w *WasRun) TestMethod() {
-	w.WasRun = true
 	w.Log = w.Log + "testMethod "
 }
