@@ -5,3 +5,9 @@ func Assert(res bool) {
 		panic(res)
 	}
 }
+
+func AssertNot(res bool) {
+	if res {
+		panic(res)
+	}
+}

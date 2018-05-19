@@ -2,8 +2,6 @@ package xunit
 
 import "reflect"
 
-type TestMethod func()
-
 func Run(t TestCase) {
 	method := reflect.ValueOf(t).MethodByName(t.Name())
 	method.Call([]reflect.Value{})
@@ -15,17 +13,18 @@ type TestCase interface {
 
 type WasRun struct {
 	name   string
-	wasRun bool
+	WasRun bool
 }
 
 func NewWasRun(name string) *WasRun {
 	return &WasRun{
-		name: name,
+		name:   name,
+		WasRun: false,
 	}
 }
 
 func (w *WasRun) TestMethod() {
-	w.wasRun = true
+	w.WasRun = true
 }
 
 func (w *WasRun) Name() string {
