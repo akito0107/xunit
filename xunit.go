@@ -1,8 +1,14 @@
 package xunit
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+)
 
 func Run(i interface{}) *TestResult {
+	res := NewTestResult()
+	res.TestStarted()
+
 	setupper, ok := i.(SetUpper)
 	if ok {
 		setupper.SetUp()
@@ -18,7 +24,7 @@ func Run(i interface{}) *TestResult {
 		downer.TearDown()
 	}
 
-	return &TestResult{}
+	return res
 }
 
 type SetUpper interface {
@@ -48,6 +54,10 @@ func (w *WasRun) TestMethod() {
 	w.Log = w.Log + "testMethod "
 }
 
+func (w *WasRun) TestBrokenMethod() {
+	panic("test")
+}
+
 func (w *WasRun) TearDown() {
 	w.Log = w.Log + "tearDown "
 }
@@ -56,8 +66,19 @@ var _ SetUpper = &WasRun{}
 var _ TearDowner = &WasRun{}
 
 type TestResult struct {
+	RunCount int
+}
+
+func NewTestResult() *TestResult {
+	return &TestResult{
+		RunCount: 0,
+	}
+}
+
+func (t *TestResult) TestStarted() {
+	t.RunCount += 1
 }
 
 func (t *TestResult) Summary() string {
-	return "1 run, 0 failed"
+	return fmt.Sprintf("%d run, 0 failed", t.RunCount)
 }

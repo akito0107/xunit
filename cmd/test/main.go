@@ -21,7 +21,14 @@ func (t *TestCaseTest) TestResult() {
 	xunit.Assert("1 run, 0 failed" == result.Summary())
 }
 
+func (t *TestCaseTest) TestFailedResult() {
+	test := xunit.NewWasRun("TestBrokenMethod")
+	result := xunit.Run(test)
+	xunit.Assert("1 run, 1 failed" == result.Summary())
+}
+
 func main() {
 	xunit.Run(&TestCaseTest{Name: "TestTemplateMethod"})
 	xunit.Run(&TestCaseTest{Name: "TestResult"})
+	xunit.Run(&TestCaseTest{Name: "TestFailedResult"})
 }
