@@ -6,8 +6,8 @@ import (
 )
 
 func TestWasRun(t *testing.T) {
-	test := &WasRun{name: "testMethod"}
+	test := &WasRun{name: "TestMethod"}
 	fmt.Println(test.wasRun)
-	test.testMethod()
+	test.Run()
 	fmt.Println(test.wasRun)
 }

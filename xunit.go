@@ -5,6 +5,10 @@ type WasRun struct {
 	wasRun bool
 }
 
-func (w *WasRun) testMethod() {
+func (w *WasRun) TestMethod() {
 	w.wasRun = true
+}
+
+func (w *WasRun) Run() {
+	w.TestMethod()
 }
