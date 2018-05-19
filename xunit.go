@@ -5,8 +5,19 @@ import (
 	"reflect"
 )
 
-func Run(i interface{}) *TestResult {
-	res := NewTestResult()
+func Run(i interface{}, result *TestResult) *TestResult {
+	switch v := i.(type) {
+	case *TestSuite:
+		for _, t := range v.Tests {
+			result = run(t, result)
+		}
+	default:
+		return run(i, result)
+	}
+	return result
+}
+
+func run(i interface{}, res *TestResult) *TestResult {
 	res.TestStarted()
 
 	setupper, ok := i.(SetUpper)
@@ -95,4 +106,12 @@ func (t *TestResult) TestFailed() {
 
 func (t *TestResult) Summary() string {
 	return fmt.Sprintf("%d run, %d failed", t.RunCount, t.ErrorCount)
+}
+
+type TestSuite struct {
+	Tests []interface{}
+}
+
+func (t *TestSuite) Add(i interface{}) {
+	t.Tests = append(t.Tests, i)
 }

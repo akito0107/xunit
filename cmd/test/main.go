@@ -13,19 +13,22 @@ type TestCaseTest struct {
 
 func (t *TestCaseTest) TestTemplateMethod() {
 	test := xunit.NewWasRun("TestMethod")
-	xunit.Run(test)
+	result := xunit.NewTestResult()
+	xunit.Run(test, result)
 	xunit.Assert("setUp testMethod tearDown " == test.Log)
 }
 
 func (t *TestCaseTest) TestResult() {
 	test := xunit.NewWasRun("TestMethod")
-	result := xunit.Run(test)
+	result := xunit.NewTestResult()
+	xunit.Run(test, result)
 	xunit.Assert("1 run, 0 failed" == result.Summary())
 }
 
 func (t *TestCaseTest) TestFailedResult() {
 	test := xunit.NewWasRun("TestBrokenMethod")
-	result := xunit.Run(test)
+	result := xunit.NewTestResult()
+	xunit.Run(test, result)
 	xunit.Assert("1 run, 1 failed" == result.Summary())
 }
 
@@ -36,9 +39,23 @@ func (t *TestCaseTest) TestFailedResultFormatting() {
 	xunit.Assert("1 run, 1 failed" == res.Summary())
 }
 
+func (t *TestCaseTest) TestSuite() {
+	suite := &xunit.TestSuite{}
+	suite.Add(xunit.NewWasRun("TestMethod"))
+	suite.Add(xunit.NewWasRun("TestBrokenMethod"))
+	result := xunit.NewTestResult()
+	xunit.Run(suite, result)
+	xunit.Assert("2 run, 1 failed" == result.Summary())
+}
+
 func main() {
-	fmt.Println(xunit.Run(&TestCaseTest{Name: "TestTemplateMethod"}).Summary())
-	fmt.Println(xunit.Run(&TestCaseTest{Name: "TestResult"}).Summary())
-	fmt.Println(xunit.Run(&TestCaseTest{Name: "TestFailedResult"}).Summary())
-	fmt.Println(xunit.Run(&TestCaseTest{Name: "TestFailedResultFormatting"}).Summary())
+	s := &xunit.TestSuite{}
+	s.Add(&TestCaseTest{Name: "TestTemplateMethod"})
+	s.Add(&TestCaseTest{Name: "TestResult"})
+	s.Add(&TestCaseTest{Name: "TestFailedResult"})
+	s.Add(&TestCaseTest{Name: "TestFailedResultFormatting"})
+	s.Add(&TestCaseTest{Name: "TestSuite"})
+	res := xunit.NewTestResult()
+	xunit.Run(s, res)
+	fmt.Println(res.Summary())
 }
